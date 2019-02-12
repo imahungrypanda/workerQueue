@@ -33,13 +33,18 @@ func (w *Worker) Start() {
 
         select {
         case work := <-w.Work:
-          fmt.Printf("worker%d: Received work request, delaying for %f seconds\n", w.ID, work.Delay.Seconds())
+          fmt.Printf("worker %d: Received work request, delaying for %f seconds\n", w.ID, work.Delay.Seconds())
 
-          time.Sleep(work.Delay)
-          fmt.Printf("worker%d: Hello, %s!\n", w.ID, work.Name)
+          if work.Type == "Stop" || work.Type == "stop" {
+            w.Stop()
+          } else {
+            time.Sleep(work.Delay)
+            fmt.Printf("worker %d: Hello, %s!\n", w.ID, work.Name)
+          }
+
 
         case <-w.QuitChan:
-          fmt.Printf("worker%d stopping\n", w.ID)
+          fmt.Printf("worker %d stopping\n", w.ID)
           return
         }
       }

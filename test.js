@@ -30,6 +30,16 @@ setTimeout(() => {
     const body = new FormData();
     body.append("delay", "1s");
     body.append("name", i);
+    body.append("type", '');
+
+    request({ url: "http://127.0.0.1:8000/work", body }).then(response => console.log("response"))
+    // request({ url: "https://dev.rigminder.com/tcli/", body }).then(response => console.log("response"))
+  }
+  for (let i = 0; i < 7; i++) {
+    const body = new FormData();
+    body.append("delay", "1s");
+    body.append("name", i);
+    body.append("type", 'stop');
 
     request({ url: "http://127.0.0.1:8000/work", body }).then(response => console.log("response"))
     // request({ url: "https://dev.rigminder.com/tcli/", body }).then(response => console.log("response"))

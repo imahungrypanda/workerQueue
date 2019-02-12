@@ -9,9 +9,9 @@ import (
 
 type request struct {
 	Name  string
+	Type 	string
 	Delay time.Duration
 }
-
 
 var (
 	workQueue = make(chan request, 100)

@@ -32,7 +32,14 @@ func Collector(w http.ResponseWriter, r *http.Request) {
     return
   }
 
-  work := request{Name: name, Delay: delay}
+  sType := r.FormValue("type")
+
+  if sType == "" {
+    http.Error(w, "You must specify a type.", http.StatusBadRequest)
+    return
+  }
+
+  work := request{Name: name, Type: sType, Delay: delay}
 
   workQueue <- work
   fmt.Println("Work request queued")
