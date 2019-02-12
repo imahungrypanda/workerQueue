@@ -1,48 +1,15 @@
-function request(obj) {
-  return new Promise(((resolve, reject) => {
-    let xhr = new XMLHttpRequest();
+for (let i = 0; i < 50; i++) {
+  const body = new FormData();
+  body.append("delay", "1s");
+  body.append("name", 1);
+  body.append("type", 'test');
 
-    xhr.open(
-      obj.method || 'POST',
-      obj.url,
-      true,
-    );
-
-    xhr.onload = () => {
-      if (xhr.status >= 200 && xhr.status < 300) {
-        resolve(xhr.response);
-      } else {
-        reject(xhr.statusText);
-      }
-    };
-
-    xhr.onerror = () => {
-      reject(xhr.statusText);
-    };
-
-    xhr.send(obj.body);
-  }));
+  fetch('http://127.0.0.1:8000/work', {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: {
+      "Content-Type": "form-data",
+    },
+    body
+  }).then(response => console.log(response))
 }
-
-
-setTimeout(() => {
-  for (let i = 0; i < 50; i++) {
-    const body = new FormData();
-    body.append("delay", "1s");
-    body.append("name", i);
-    body.append("type", '');
-
-    request({ url: "http://127.0.0.1:8000/work", body }).then(response => console.log("response"))
-    // request({ url: "https://dev.rigminder.com/tcli/", body }).then(response => console.log("response"))
-  }
-  for (let i = 0; i < 7; i++) {
-    const body = new FormData();
-    body.append("delay", "1s");
-    body.append("name", i);
-    body.append("type", 'stop');
-
-    request({ url: "http://127.0.0.1:8000/work", body }).then(response => console.log("response"))
-    // request({ url: "https://dev.rigminder.com/tcli/", body }).then(response => console.log("response"))
-  }
-
-}, 10)
